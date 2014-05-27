@@ -1,0 +1,6 @@
+{
+  "name": "node-play",
+  "dependencies": {
+    "johnny-five": "^0.7.37"
+  }
+}
