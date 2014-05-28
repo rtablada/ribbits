@@ -6,18 +6,27 @@ var moment = require('moment');
 var Timer = Ember.Object.extend({
   lcd: null,
 	time: moment(),
+  lcdTime: null,
+  displayTime: null,
+  format: 'hh:mm:ss A',
 
   updateTime: function() {
     this.set('time', moment());
   },
 
 	displayTime: function() {
-		return this.get('time').format('hh:mm:ss A');
+		return this.get('time').format(this.get('format'));
 	}.property('time'),
 
-	timeRequiresUpdate: function() {
-		this.get('lcd').clear().cursor(0, 0).print(this.get('displayTime'));
-	}.observes('displayTime')
+	displayTimeDidUpdate: function() {
+    if (this.get('displayTime') != this.get('lcdTime')) {
+      this.set('lcdTime', this.get('displayTime'));
+    }
+  }.observes('displayTime'),
+
+  updateLCDTime: function() {
+		this.get('lcd').cursor(0, 0).print(this.get('lcdTime'));
+	}.observes('lcdTime')
 });
 
 
@@ -32,10 +41,11 @@ board.on("ready", function() {
   });
 
   var timer = Timer.create({
-  	lcd: lcd
+  	lcd: lcd,
+    format: 'hh:mm:ss:SS A'
   });
 
-  this.loop(300, function() {
+  this.loop(10, function() {
     timer.updateTime();
   });
 
