@@ -19,7 +19,7 @@ board.on("ready", function() {
       col = 0,
       row = 0;
 
-    var lorem = "Lorem";
+    var lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, qui, nostrum debitis aliquam voluptates delectus labore perferendis neque omnis similique ullam vero sit fugiat rem distinctio ex sapiente voluptate illum!";
 
     board.loop(500, function() {
 
@@ -27,12 +27,8 @@ board.on("ready", function() {
       	lorem
       );
 
-      if (++col === lcd.cols) {
+      if (--col === -(lorem.length)) {
         col = 0;
-
-        if (++row === lcd.rows) {
-          row = 0;
-        }
       }
     });
   });
